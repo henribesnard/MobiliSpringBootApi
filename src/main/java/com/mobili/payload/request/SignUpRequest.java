@@ -5,81 +5,62 @@ import java.util.Set;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 public class SignUpRequest {
 
 	@NotBlank
-	@Size(max = 50)
+
 	@Email
 	private String email;
 	@NotBlank
-	@Size(max = 120)
+
 	private String mot_de_passe;
-	
-	@Size(max= 120)
+
 	private String nom;
 
-	@Size(max= 120)
 	private String prenom;
-	
-	@Size(max= 20)
+	private String stellarid;
+
+	private String stellarsecret;
+
 	private String pays_de_residence;
-	
-	@Size(max= 120)
+
 	private String region_ou_province;
-	
-	@Size(max= 120)
+
 	private String ville;
-	
-	@Size(max= 120)
+
 	private String code_postale;
-	
-	@Size(max= 120)
+
 	private String addresse;
-	
-	@Size(max= 120)
+
 	private String numero_de_telephone;
-	
-	@Size(max= 120)
+
 	private Date date_de_naissance;
-	
-	@Size(max= 120)
-	private String lieu_de_naissance ;
-	
-	@Size(max= 120)
+
+	private String lieu_de_naissance;
+
 	private String pays_de_naissance;
-	
-	@Size(max= 120)
+
 	private String type_de_carte_identite;
-	
-	@Size(max= 120)
+
 	private String pays_de_delivrance_carte_identite;
-	
-	@Size(max= 120)
+
 	private Date date_emmission_carte_identite;
-	
-	@Size(max= 120)
+
 	private Date date_expiration_carte_identite;
-	
-	@Size(max= 120)
+
 	private String numero_carte_identite;
-	
-	@Size(max= 120)
+
 	private String photo_identite_resto;
-	
-	@Size(max= 120)
+
 	private String photo_identite_verso;
-	
-	@Size(max= 120)
+
 	private String adresse_ip;
-	
-	@Size(max= 120)
+
 	private String type_justificatif_domicile;
-	
-	@Size(max= 120)
+
 	private String photo_justificatif_domicile;
-	
+
 	private Set<String> role;
 
 	public String getEmail() {
@@ -272,6 +253,22 @@ public class SignUpRequest {
 
 	public void setRole(Set<String> role) {
 		this.role = role;
+	}
+
+	public String getStellarid() {
+		return stellarid;
+	}
+
+	public void setStellarid(String stellarid) {
+		this.stellarid = stellarid;
+	}
+
+	public String getStellarsecret() {
+		return stellarsecret;
+	}
+
+	public void setStellarsecret(String stellarsecret) {
+		this.stellarsecret = stellarsecret;
 	}
 	
 

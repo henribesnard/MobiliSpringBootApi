@@ -14,7 +14,7 @@ import com.mobili.repository.UtilisateurRepository;
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	UtilisateurRepository utilisateurRepository;
-	
+
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -23,6 +23,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 		return UserDetailsImpl.build(utilisateur);
 	}
-	
 
 }

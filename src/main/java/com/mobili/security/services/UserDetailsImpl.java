@@ -30,7 +30,7 @@ public class UserDetailsImpl implements UserDetails {
 	private String addresse;
 	private String numero_de_telephone;
 	private Date date_de_naissance;
-	private String lieu_de_naissance ;
+	private String lieu_de_naissance;
 	private String pays_de_naissance;
 	private String type_de_carte_identite;
 	private String pays_de_delivrance_carte_identite;
@@ -42,20 +42,19 @@ public class UserDetailsImpl implements UserDetails {
 	private String adresse_ip;
 	private String type_justificatif_domicile;
 	private String photo_justificatif_domicile;
-    private String stellarid;
+	private String stellarid;
 	private String stellarsecret;
 
 	private Collection<? extends GrantedAuthority> authorities;
-	
 
 	public UserDetailsImpl(int id, int compteId, String email, String mot_de_passe, String nom, String prenom,
 			String pays_de_residence, String region_ou_province, String ville, String code_postale, String addresse,
 			String numero_de_telephone, Date date_de_naissance, String lieu_de_naissance, String pays_de_naissance,
 			String type_de_carte_identite, String pays_de_delivrance_carte_identite, Date date_emmission_carte_identite,
 			Date date_expiration_carte_identite, String numero_carte_identite, String photo_identite_resto,
-			String photo_identite_verso, String adresse_ip, String type_justificatif_domicile, 
-			String photo_justificatif_domicile, String stellarid,
-			String stellarsecret, Collection<? extends GrantedAuthority> authorities) {
+			String photo_identite_verso, String adresse_ip, String type_justificatif_domicile,
+			String photo_justificatif_domicile, String stellarid, String stellarsecret,
+			Collection<? extends GrantedAuthority> authorities) {
 		super();
 		this.id = id;
 		this.compteId = compteId;
@@ -89,40 +88,22 @@ public class UserDetailsImpl implements UserDetails {
 
 	public static UserDetailsImpl build(Utilisateur utilisateur) {
 		List<GrantedAuthority> authorities = utilisateur.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
-				.collect(Collectors.toList());
-		
-		return new UserDetailsImpl (
-				utilisateur.getId(),
-				utilisateur.getCompteId(),
-				utilisateur.getEmail(),
-				utilisateur.getMot_de_passe(),
-				utilisateur.getNom(),
-				utilisateur.getPrenom(),
-				utilisateur.getPays_de_residence(),
-				utilisateur.getRegion_ou_province(),
-				utilisateur.getVille(),
-				utilisateur.getCode_postale(),
-				utilisateur.getAddresse(),
-				utilisateur.getNumero_de_telephone(),
-				utilisateur.getDate_de_naissance(),
-				utilisateur.getLieu_de_naissance() ,
-				utilisateur.getPays_de_naissance(),
-				utilisateur.getType_de_carte_identite(),
-				utilisateur.getPays_de_delivrance_carte_identite(),
-				utilisateur.getDate_emmission_carte_identite(),
-				utilisateur.getDate_expiration_carte_identite(),
-				utilisateur.getNumero_carte_identite(),
-				utilisateur.getPhoto_identite_resto(),
-				utilisateur.getPhoto_identite_verso(),
-				utilisateur.getAdresse_ip(),
-				utilisateur.getType_justificatif_domicile(),
-				utilisateur.getPhoto_justificatif_domicile(),
-				utilisateur.getStellarid(),
-				utilisateur.getStellarsecret(),
-				authorities
-				
-				);
+				.map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
+
+		return new UserDetailsImpl(utilisateur.getId(), utilisateur.getCompteId(), utilisateur.getEmail(),
+				utilisateur.getMot_de_passe(), utilisateur.getNom(), utilisateur.getPrenom(),
+				utilisateur.getPays_de_residence(), utilisateur.getRegion_ou_province(), utilisateur.getVille(),
+				utilisateur.getCode_postale(), utilisateur.getAddresse(), utilisateur.getNumero_de_telephone(),
+				utilisateur.getDate_de_naissance(), utilisateur.getLieu_de_naissance(),
+				utilisateur.getPays_de_naissance(), utilisateur.getType_de_carte_identite(),
+				utilisateur.getPays_de_delivrance_carte_identite(), utilisateur.getDate_emmission_carte_identite(),
+				utilisateur.getDate_expiration_carte_identite(), utilisateur.getNumero_carte_identite(),
+				utilisateur.getPhoto_identite_resto(), utilisateur.getPhoto_identite_verso(),
+				utilisateur.getAdresse_ip(), utilisateur.getType_justificatif_domicile(),
+				utilisateur.getPhoto_justificatif_domicile(), utilisateur.getStellarid(),
+				utilisateur.getStellarsecret(), authorities
+
+		);
 	}
 
 	public static long getSerialversionuid() {
@@ -328,7 +309,6 @@ public class UserDetailsImpl implements UserDetails {
 	public void setMot_de_passe(String mot_de_passe) {
 		this.mot_de_passe = mot_de_passe;
 	}
-	
 
 	public String getStellarid() {
 		return stellarid;
@@ -387,7 +367,7 @@ public class UserDetailsImpl implements UserDetails {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -397,5 +377,5 @@ public class UserDetailsImpl implements UserDetails {
 		UserDetailsImpl user = (UserDetailsImpl) o;
 		return Objects.equals(id, user.id);
 	}
-	
+
 }

@@ -1,9 +1,6 @@
 package com.mobili.controllers;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,18 +33,16 @@ import com.mobili.models.Utilisateur;
 import com.mobili.payload.request.SignUpRequest;
 import com.mobili.payload.response.MessageResponse;
 
-import org.stellar.sdk.KeyPair;
-
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthControllers {
 	@Autowired
 	AuthenticationManager authenticationManager;
-	
+
 	@Autowired
 	UtilisateurRepository userRepository;
-	
+
 	@Autowired
 	RoleRepository roleRepository;
 
@@ -56,115 +51,58 @@ public class AuthControllers {
 
 	@Autowired
 	JwtUtils jwtUtils;
-	
+
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-		       
+
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
-		
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
-		List<String> roles = userDetails.getAuthorities().stream()
-				.map(item -> item.getAuthority())
+
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 
-		return ResponseEntity.ok(new JwtResponse(jwt,
-				roles,
-				userDetails.getId(),
-				userDetails.getCompteId(),
-				userDetails.getEmail(),
-   				userDetails.getNom(),
-   				userDetails.getPrenom(),
-   				userDetails.getPays_de_residence(),
-   				userDetails.getRegion_ou_province(),
-   				userDetails.getVille(),
-   				userDetails.getCode_postale(),
-   				userDetails.getAddresse(),
-   				userDetails.getNumero_de_telephone(),
-   				userDetails.getDate_de_naissance(),
-   				userDetails.getLieu_de_naissance() ,
-   				userDetails.getPays_de_naissance(),
-   				userDetails.getType_de_carte_identite(),
-   				userDetails.getPays_de_delivrance_carte_identite(),
-   				userDetails.getDate_emmission_carte_identite(),
-   				userDetails.getDate_expiration_carte_identite(),
-   				userDetails.getNumero_carte_identite(),
-   				userDetails.getPhoto_identite_resto(),
-   				userDetails.getPhoto_identite_verso(),
-   				userDetails.getAdresse_ip(),
-   				userDetails.getType_justificatif_domicile(),
-   				userDetails.getPhoto_justificatif_domicile(),
-   				userDetails.getStellarid(),
-   				userDetails.getStellarsecret()));
+		return ResponseEntity.ok(new JwtResponse(jwt, roles, userDetails.getId(), userDetails.getCompteId(),
+				userDetails.getEmail(), userDetails.getNom(), userDetails.getPrenom(),
+				userDetails.getPays_de_residence(), userDetails.getRegion_ou_province(), userDetails.getVille(),
+				userDetails.getCode_postale(), userDetails.getAddresse(), userDetails.getNumero_de_telephone(),
+				userDetails.getDate_de_naissance(), userDetails.getLieu_de_naissance(),
+				userDetails.getPays_de_naissance(), userDetails.getType_de_carte_identite(),
+				userDetails.getPays_de_delivrance_carte_identite(), userDetails.getDate_emmission_carte_identite(),
+				userDetails.getDate_expiration_carte_identite(), userDetails.getNumero_carte_identite(),
+				userDetails.getPhoto_identite_resto(), userDetails.getPhoto_identite_verso(),
+				userDetails.getAdresse_ip(), userDetails.getType_justificatif_domicile(),
+				userDetails.getPhoto_justificatif_domicile(), userDetails.getStellarid(),
+				userDetails.getStellarsecret()));
 	}
-	
+
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) throws IOException {
 
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Erreur: Email déjà utilisé"));
+			return ResponseEntity.badRequest().body(new MessageResponse("Erreur: Email déjà utilisé"));
 		}
-		//générer un numéro de compte
+		
 		int min = 10000000;
-		int max = 99999999;	
-		int range = max - min + 1; 
+		int max = 99999999;
+		int range = max - min + 1;
 		int numeroCompte = (int) (Math.random() * range) + min;
-		
-		// Créer la paire de clés stellar
-		
-		KeyPair pair = KeyPair.random();
-		
-		
-		String stellarid = pair.getAccountId();
-		String stellarsecret = new String(pair.getSecretSeed());
-		// Enregistrer le code secret encodé: Mais comment le récupérer en front décodé
-		//String secretEncode = encoder.encode(stellarsecret);
-		
-		
-		String friendbotUrl = String.format("https://friendbot.stellar.org?addr=%s", stellarid);
-		
-		InputStream respponse = null;
-		try {
-		respponse = new URL(friendbotUrl).openStream();
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+
 		// CREER UN COMPTE UTILISATEUR
-		Utilisateur user = new Utilisateur (
-				signUpRequest.getEmail(),
-				encoder.encode(signUpRequest.getMot_de_passe()),
-				signUpRequest.getNom(),
-   				signUpRequest.getPrenom(),
-   				signUpRequest.getPays_de_residence(),
-   				signUpRequest.getRegion_ou_province(),
-   				signUpRequest.getVille(),
-   				signUpRequest.getCode_postale(),
-   				signUpRequest.getAddresse(),
-   				signUpRequest.getNumero_de_telephone(),
-   				signUpRequest.getDate_de_naissance(),
-   				signUpRequest.getLieu_de_naissance(),
-   				signUpRequest.getPays_de_naissance(),
-   				signUpRequest.getType_de_carte_identite(),
-   				signUpRequest.getPays_de_delivrance_carte_identite(),
-   				signUpRequest.getDate_emmission_carte_identite(),
-   				signUpRequest.getDate_expiration_carte_identite(),
-   				signUpRequest.getNumero_carte_identite(),
-   				signUpRequest.getPhoto_identite_resto(),
-   				signUpRequest.getPhoto_identite_verso(),
-   				signUpRequest.getAdresse_ip(),
-   				signUpRequest.getType_justificatif_domicile(),
-   				signUpRequest.getPhoto_justificatif_domicile()
-							 );
+		Utilisateur user = new Utilisateur(signUpRequest.getEmail(), encoder.encode(signUpRequest.getMot_de_passe()),
+				signUpRequest.getNom(), signUpRequest.getPrenom(), signUpRequest.getPays_de_residence(),
+				signUpRequest.getRegion_ou_province(), signUpRequest.getVille(), signUpRequest.getCode_postale(),
+				signUpRequest.getAddresse(), signUpRequest.getNumero_de_telephone(),
+				signUpRequest.getDate_de_naissance(), signUpRequest.getLieu_de_naissance(),
+				signUpRequest.getPays_de_naissance(), signUpRequest.getType_de_carte_identite(),
+				signUpRequest.getPays_de_delivrance_carte_identite(), signUpRequest.getDate_emmission_carte_identite(),
+				signUpRequest.getDate_expiration_carte_identite(), signUpRequest.getNumero_carte_identite(),
+				signUpRequest.getPhoto_identite_resto(), signUpRequest.getPhoto_identite_verso(),
+				signUpRequest.getAdresse_ip(), signUpRequest.getType_justificatif_domicile(),
+				signUpRequest.getPhoto_justificatif_domicile());
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
@@ -194,12 +132,9 @@ public class AuthControllers {
 				}
 			});
 		}
-        user.setCompteId(numeroCompte);
+		user.setCompteId(numeroCompte);
 		user.setRoles(roles);
-		user.setStellarid(stellarid);
-		// plutôt persister le code encodé! Mais pour le moment persister le code secret en dur
-		user.setStellarsecret(stellarsecret);
-		
+
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("inscription réussie"));

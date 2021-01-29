@@ -15,46 +15,41 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 
-
 @Entity
-@Table(name="payement")
+@Table(name = "payement")
 public class Payement {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	
+
 	private Date date;
-	
+
 	@NotBlank
 	private String titre;
-	
+
 	private String commentaire;
-	
+
 	@NotBlank
 	private String montant;
-	
+
 	@NotBlank
 	private String frais;
-	
-	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name ="destinateur", referencedColumnName="ID")
-	@JsonIdentityReference(alwaysAsId = true)
-	 private Utilisateur destinateur;
-   	
-	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name ="beneficiaire", referencedColumnName="ID")
-	@JsonIdentityReference(alwaysAsId = true)
-	 private Utilisateur beneficiaire;
 
-	
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "destinateur", referencedColumnName = "ID")
+	@JsonIdentityReference(alwaysAsId = true)
+	private Utilisateur destinateur;
+
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "beneficiaire", referencedColumnName = "ID")
+	@JsonIdentityReference(alwaysAsId = true)
+	private Utilisateur beneficiaire;
+
 	public Payement() {
 		super();
 	}
-
-	
 
 	public Payement(Date date, @NotBlank String titre, String commentaire, @NotBlank String montant,
 			@NotBlank String frais) {
@@ -65,8 +60,6 @@ public class Payement {
 		this.montant = montant;
 		this.frais = frais;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -92,7 +85,6 @@ public class Payement {
 		this.montant = montant;
 	}
 
-
 	public String getFrais() {
 		return frais;
 	}
@@ -101,53 +93,36 @@ public class Payement {
 		this.frais = frais;
 	}
 
-
-
 	public Utilisateur getDestinateur() {
 		return destinateur;
 	}
-
-
 
 	public void setDestinateur(Utilisateur destinateur) {
 		this.destinateur = destinateur;
 	}
 
-
-
 	public Utilisateur getBeneficiaire() {
 		return beneficiaire;
 	}
-
-
 
 	public void setBeneficiaire(Utilisateur beneficiaire) {
 		this.beneficiaire = beneficiaire;
 	}
 
-
-
 	public String getTitre() {
 		return titre;
 	}
-
-
 
 	public void setTitre(String titre) {
 		this.titre = titre;
 	}
 
-
-
 	public String getCommentaire() {
 		return commentaire;
 	}
 
-
 	public void setCommentaire(String commentaire) {
 		this.commentaire = commentaire;
 	}
-	
-	
-	
+
 }
