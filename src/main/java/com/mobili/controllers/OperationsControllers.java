@@ -40,7 +40,7 @@ public class OperationsControllers {
 
 	// RECURER TOUTES LES OPERATIONS d'un UTILISATEUR
 	@GetMapping("/operations/{utilisateurId}")
-//	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')or hasRole('MODERATEUR')")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')or hasRole('MODERATEUR')")
 	public Collection<Operations> getAlloperations(@PathVariable(value = "utilisateurId") int utilisateurId) {
 		Utilisateur user = utilisateurRepository.findUserById(utilisateurId);
 		return operationsrepository.findByUtilisateur(user);

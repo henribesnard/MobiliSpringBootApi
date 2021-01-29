@@ -39,7 +39,7 @@ public class PayementControllers {
 	EntityManager entityManager;
 
 	// RECURER TOUS LES PAYEMENTS d'un UTILISATEUR
-//	@GetMapping("/payements/{utilisateurId}")
+    @GetMapping("/payements/{utilisateurId}")
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')or hasRole('MODERATEUR')")
 	public Collection<Payement> getAllPayementRecus(@PathVariable(value = "utilisateurId") int utilisateurId) {
 		Utilisateur user = utilisateurRepository.findUserById(utilisateurId);
