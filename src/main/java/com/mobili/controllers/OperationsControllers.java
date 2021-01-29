@@ -53,7 +53,7 @@ public class OperationsControllers {
 
 		Date date = new Date();
 
-		Operations operations = new Operations(date, operationsRequest.getType(), "Statut",
+		Operations operations = new Operations(date, operationsRequest.getType(), "Statut: en attente / fini",
 				operationsRequest.getMontant(), "frais");
 
 		operations.setDate(date);
