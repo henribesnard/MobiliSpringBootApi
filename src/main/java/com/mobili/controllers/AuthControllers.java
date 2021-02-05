@@ -85,7 +85,7 @@ public class AuthControllers {
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Erreur: Email déjà utilisé"));
 		}
-		
+
 		int min = 10000000;
 		int max = 99999999;
 		int range = max - min + 1;
@@ -93,7 +93,8 @@ public class AuthControllers {
 
 		// CREER UN COMPTE UTILISATEUR
 		Utilisateur user = new Utilisateur(signUpRequest.getEmail(), encoder.encode(signUpRequest.getMot_de_passe()),
-				signUpRequest.getNom(), signUpRequest.getPrenom(), signUpRequest.getPays_de_residence(),
+				signUpRequest.getNom(), signUpRequest.getPrenom(), signUpRequest.getStellarid(),
+				signUpRequest.getStellarsecret(), signUpRequest.getPays_de_residence(),
 				signUpRequest.getRegion_ou_province(), signUpRequest.getVille(), signUpRequest.getCode_postale(),
 				signUpRequest.getAddresse(), signUpRequest.getNumero_de_telephone(),
 				signUpRequest.getDate_de_naissance(), signUpRequest.getLieu_de_naissance(),

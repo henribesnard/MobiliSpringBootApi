@@ -99,9 +99,10 @@ public class Utilisateur {
 	}
 
 	public Utilisateur(@NotBlank @Email String email, @NotBlank String mot_de_passe, String nom, String prenom,
-			String pays_de_residence, String region_ou_province, String ville, String code_postale, String addresse,
-			String numero_de_telephone, Date date_de_naissance, String lieu_de_naissance, String pays_de_naissance,
-			String type_de_carte_identite, String pays_de_delivrance_carte_identite, Date date_emmission_carte_identite,
+			String stellarid, String stellarsecret, String pays_de_residence, String region_ou_province, String ville,
+			String code_postale, String addresse, String numero_de_telephone, Date date_de_naissance,
+			String lieu_de_naissance, String pays_de_naissance, String type_de_carte_identite,
+			String pays_de_delivrance_carte_identite, Date date_emmission_carte_identite,
 			Date date_expiration_carte_identite, String numero_carte_identite, String photo_identite_resto,
 			String photo_identite_verso, String adresse_ip, String type_justificatif_domicile,
 			String photo_justificatif_domicile) {
@@ -111,6 +112,8 @@ public class Utilisateur {
 		this.mot_de_passe = mot_de_passe;
 		this.nom = nom;
 		this.prenom = prenom;
+		this.stellarid = stellarid;
+		this.stellarsecret = stellarsecret;
 		this.pays_de_residence = pays_de_residence;
 		this.region_ou_province = region_ou_province;
 		this.ville = ville;
